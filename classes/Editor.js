@@ -3,6 +3,7 @@ class Editor {
         this.game = game
         this.selectedBeat = 0
         this.saveLocation = saveLocation || null
+        this.renderer = new ChartRenderer($("#chart")[0]);
     }
 
     drawChart(select) {

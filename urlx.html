@@ -182,7 +182,9 @@
 
         <hr>
 
-        <div id="chart" class="chartVisible"></div>
+        <div id="chartContainer">
+            <canvas id="chart" class="chartVisible"></canvas>
+        </div>
 
         <div class="chartHidden" style="display: none;">
             <p style="font-size: 24px;"><b>Chart hidden!</b> Press E to unhide.</p>
@@ -481,7 +483,12 @@
 <script type="text/javascript" src="./libraries/jquery.js"></script>
 <script type="text/javascript" src="./libraries/howler.js"></script>
 <script type="text/javascript" src="./libraries/jszip.js"></script>
+<script type="text/javascript" src="./libraries/pixi.js"></script>
 <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="./classes/ChartRenderer/Note.js?v=3"></script>
+<script type="text/javascript" src="./classes/ChartRenderer/Beat.js?v=3"></script>
+<script type="text/javascript" src="./classes/ChartRenderer.js?v=3"></script>
 
 <script type="text/javascript" src="./scripts/miscfunctions.js?v=3"></script>
 <script type="text/javascript" src="./scripts/config.js?v=3"></script>

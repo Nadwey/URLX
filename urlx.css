@@ -185,7 +185,7 @@ hr {
     height: 100vh;
 }
 
-#chart {
+#chartContainer {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -195,7 +195,8 @@ hr {
     align-content: flex-start;
     overflow-x: hidden;
     overflow-y: auto;
-    margin: 0px 25px 25px 0px;
+    margin: 25px;
+    width: calc(100% - 50px);
 }
 
 ::-webkit-scrollbar {
