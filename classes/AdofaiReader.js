@@ -15,6 +15,7 @@
  * @typedef {Object} Settings
  * @property {String} song
  * @property {Number} bpm
+ * @property {Number} offset
  */
 
 /**
@@ -61,7 +62,8 @@ const ReadAfodaiString = (adofaiString) => {
         M: 210,
         B: 240,
         F: 300,
-        N: 330
+        N: 330,
+        "!": 90 // unsupported
     };
 
     /**
@@ -70,7 +72,6 @@ const ReadAfodaiString = (adofaiString) => {
      */
     const data = JSON.parse(adofaiString);
 
-    let prevAngle = 0;
     let bpm = data.settings.bpm;
 
     if (!data.angleData) {
@@ -78,9 +79,11 @@ const ReadAfodaiString = (adofaiString) => {
         data.angleData = pathData.map(val => angles[val]);
     }
 
+    data.angleData.unshift(0); // lol
+
     const events = data.angleData.map((angle, index) => {
         let wasBpmChanged = false;
-        let angleChange = Math.abs(prevAngle - angle + 540) % 360;
+        let angleChange = Math.abs((data.angleData[index + 1] || 360) - angle + 540) % 360;
 
         const supportedActions = ["SetSpeed", "Twirl"];
         data.actions.filter(action => action.floor === index && supportedActions.includes(action.eventType)).forEach(action => {
@@ -104,7 +107,6 @@ const ReadAfodaiString = (adofaiString) => {
 
         const milis = (1000 * angleChange) / (3 * bpm);
 
-        prevAngle = angle;
         return {
             time: milis,
             angleChange,

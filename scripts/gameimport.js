@@ -639,41 +639,30 @@ async function importGameChart(providedSong={}) {
             break;
         }
         case "adofai": {
-            // I suck at math (plz somebody help)
-
-            const beatPrecision = 1;
-
             const data = ReadAfodaiString(gameChart.chart);
 
             chart.metadata = {
                 "name": data.settings.song,
                 "filename": "",
-                "bpm": data.settings.bpm * beatPrecision,
-                "subdivision": beatPrecision,
-                "offset": 0
+                "bpm": data.settings.bpm,
+                "subdivision": 8,
+                "offset": -data.settings.offset
             }
-            console.log(data.settings.bpm * beatPrecision);
 
-            // let time = 0;
             let bpm = data.settings.bpm;
             let beat = 0;
             data.events.forEach((event) => {
+                addNote(beat, "o", false);
+
                 if (event.bpm !== null) {
                     bpm = event.bpm;
-                    chart.actions.push({ beat: beat, type: "bpm", val: bpm * beatPrecision });
-                    console.log(bpm * beatPrecision);
+                    chart.actions.push({ beat: beat, type: "bpm", val: bpm });
                 }
 
-                let barLength = 60 / (bpm * 8);
-                beat += toSafe(event.angleChange / 180, 4) / barLength + 1;
-
-                console.log(beat);
-
-                addNote(toSafe(beat), "o", false);
-                //beat +=  * beatPrecision;
-
-                //time += event.time;
+                beat += event.angleChange / 180;
             });
+
+            break;
         }
     }
     
