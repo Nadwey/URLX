@@ -126,7 +126,7 @@ let gameImportData = [
     {
         name: "A dance of fire and ice",
         id: "adofai",
-        hover: "Implementing this wall hell",
+        hover: "Implementing this was hell",
         filestring: ".adofai file",
         filetypes: [".adofai"],
         details: "idk what to put here",

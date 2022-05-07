@@ -519,19 +519,21 @@ input::-webkit-inner-spin-button, input::-webkit-outer-spin-button {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    max-height: 360px;
+    overflow-y: scroll;
 }
 
 .popupBox .gameOption {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100px;
     cursor: pointer;
     transition-duration: 0.1s;
-    padding: 0px 25px;
+    padding: 18px 25px;
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.1);
     margin-bottom: 20px;
+    align-items: center;
 }
 
 .popupBox .gameOption:hover {
