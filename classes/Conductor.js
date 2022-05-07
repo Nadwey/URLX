@@ -186,8 +186,8 @@ class Conductor {
     // gets the position of a beat in seconds, taking bpm changes into consideration
     getSecsFromBeat(targetBeat) {
         let lastBPMChange = this.bpmChanges.findLast(x => x.beat <= targetBeat) // gets most recent bpm change since the target beat. also since when is findLast a thing?
-        if (targetBeat == lastBPMChange.beat) return lastBPMChange.secs + this.offset // if the beats are the same, just return the secs from the bpm change
-        else return lastBPMChange.secs + this.offset + getSecsBetween(lastBPMChange.beat, targetBeat, lastBPMChange.bpm) // calculate the # of seconds between the two changes, then add it to the # of secs from the previous bpm change
+        if (targetBeat == lastBPMChange.beat) return (lastBPMChange.secs + this.offset) / this.speed; // if the beats are the same, just return the secs from the bpm change
+        else return lastBPMChange.secs + this.offset + getSecsBetween(lastBPMChange.beat, targetBeat, lastBPMChange.bpm) / this.speed; // calculate the # of seconds between the two changes, then add it to the # of secs from the previous bpm change
     }
 
     // same as the function above but the other way around
@@ -203,12 +203,12 @@ class Conductor {
     }
 
     songPos() { // song position
-        return this.music.seek()
+        return this.music.seek() / this.speed
     }
 
     // get the amount of secs until the next beat, essentially compares the beat number and the song position
     timeToNextBeat(targetBeat) { 
-        return (this.getSecsFromBeat(targetBeat) - this.songPos()) / this.speed
+        return (this.getSecsFromBeat(targetBeat) - this.songPos())
     }
 
     isAhead(beat) {
