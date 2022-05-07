@@ -6,7 +6,6 @@ let gameImportData = [
         filestring: ".rdlevel file",
         filetypes: [".rdlevel"],
         details: "All 'hits' in the level will be charted as spacebar presses.",
-        songIncluded: false,
         settings: [
             {
                 name: "Also chart oneshot pulses (oneshot rows)",
@@ -46,7 +45,6 @@ let gameImportData = [
         filestring: ".json file",
         filetypes: [".json"],
         details: "All notes will be charted, and opponent hits will be marked as CPU notes. Held notes will be replaced with single hits.<br><b>Song offset is required to snap beats correctly!</b> It can be found in an audio editor by getting the amount of time between the start of the song and beat 1.<br>Anyways expect lots of bugs because chart format differs between mods.",
-        songIncluded: false,
         settings: [
             {
                 name: "Song offset:",
@@ -80,7 +78,6 @@ let gameImportData = [
         filestring: ".sm file",
         filetypes: [".sm"],
         details: "All notes will be charted. Held/roll notes will be replaced with single hits, and mines will be marked as CPU notes. No sexy visuals unfortunately 😔",
-        songIncluded: false,
         settings: [
             {
                 name: "Chart difficulty",
@@ -105,10 +102,9 @@ let gameImportData = [
         name: "Osu!",
         id: "osu",
         hover: "osu thingy",
-        filestring: ".osz file",
-        filetypes: [".osz"],
-        details: "All hits in the level will be charted as spacebar presses. Also bpm changes don't work for this moment.",
-        songIncluded: true,
+        filestring: ".osz or .osu file",
+        filetypes: [".osz", ".osu"],
+        details: "Bpm changes don't work for this moment. Song will not be imported!",
         settings: [
             {
                 name: "Chart difficulty",
@@ -123,6 +119,7 @@ let gameImportData = [
             }
         ]
     },
+
     {
         name: "A dance of fire and ice",
         id: "adofai",
@@ -193,8 +190,6 @@ function validGameChart(game, chart, filename, settings={}) {
     $('#gameImportName').text(gameData.name)
     $('#gameImportInfo').html(gameData.details)
     $('#gameImportSettings').empty()
-    if (gameData.songIncluded) $("#gameImportSongContainer").hide();
-    else $("#gameImportSongContainer").show();
     gameData.settings.forEach(o => {
         let optionData = ""
         switch (o.type) {
@@ -228,45 +223,59 @@ function validateGameChart(data) {
             case "rd":
                 // remove trailing commas from rdlevel file
                 chartData = chartData
-                .replace(/,(\s+)},/g, "$1},")
-                .replace(/},(\n?\s+")/g, "},$1")
-                .replace(/,(\n?\s+])/g, "$1")
-                .replace(/,\s*?}/g, " }")
-                .replace(/(\n|\t|\r|\\n)/g, " ")
-                .replace(/, ?"text":(.|\n)+?},/g, "},") // just delete floating text, like entirely
-                .replace(/(\d) "ease"/g, '$1, "ease"') // easing sometimes has missing commas?
-               // .trim()
+                    .replace(/,(\s+)},/g, "$1},")
+                    .replace(/},(\n?\s+")/g, "},$1")
+                    .replace(/,(\n?\s+])/g, "$1")
+                    .replace(/,\s*?}/g, " }")
+                    .replace(/(\n|\t|\r|\\n)/g, " ")
+                    .replace(/, ?"text":(.|\n)+?},/g, "},") // just delete floating text, like entirely
+                    .replace(/(\d) "ease"/g, '$1, "ease"'); // easing sometimes has missing commas?
+                // .trim()
 
-                try { return validGameChart(data.game, JSON.parse(chartData), data.file.name) }
-                catch(e) { console.log(chartData); console.error(e); return invalidGameChart("Invalid JSON")
-            }
-    
+                try {
+                    return validGameChart(data.game, JSON.parse(chartData), data.file.name);
+                } catch (e) {
+                    console.log(chartData);
+                    console.error(e);
+                    return invalidGameChart("Invalid JSON");
+                }
+
             case "fnf":
-                try { return validGameChart(data.game, JSON.parse(chartData), data.file.name) }
-                catch(e) { console.error(e); return invalidGameChart("Invalid JSON") }
+                try {
+                    return validGameChart(data.game, JSON.parse(chartData), data.file.name);
+                } catch (e) {
+                    console.error(e);
+                    return invalidGameChart("Invalid JSON");
+                }
 
             case "sm":
-                let foundDifficulties = chartData.match(new RegExp(smDifficultyRegex, "g"))
-                if (!foundDifficulties || !foundDifficulties.length) return invalidGameChart("No difficulties found!")
-                foundDifficulties = foundDifficulties.map(x => x.match(smDifficultyRegex)).map(x => ({ id: x[2], name: `${x[2]}${x[1].trim().length ? ` (${x[1].trim()})` : ""}` }))
-                return validGameChart(data.game, chartData, data.file.name, {difficulties: foundDifficulties})
+                let foundDifficulties = chartData.match(new RegExp(smDifficultyRegex, "g"));
+                if (!foundDifficulties || !foundDifficulties.length) return invalidGameChart("No difficulties found!");
+                foundDifficulties = foundDifficulties.map((x) => x.match(smDifficultyRegex)).map((x) => ({ id: x[2], name: `${x[2]}${x[1].trim().length ? ` (${x[1].trim()})` : ""}` }));
+                return validGameChart(data.game, chartData, data.file.name, { difficulties: foundDifficulties });
 
             case "osu":
                 try {
-                    let jsZip = new JSZip();
-                    let zip = await jsZip.loadAsync(data.file);
-
                     let foundDifficulties = [];
-                    for await (const file of Object.values(zip.files)) {
-                        if (path.parse(file.name).ext === ".osu") {
-                            foundDifficulties.push(file.name); // I think you can't use parser
+
+                    const ext = getExtension(data.file.name);
+                    if (ext === "osu") {
+                        foundDifficulties.push(data.file.name);
+                    } else if (ext === "osz") {
+                        let jsZip = new JSZip();
+                        let zip = await jsZip.loadAsync(data.file);
+
+                        for await (const file of Object.values(zip.files)) {
+                            if (getExtension(file.name) === "osu") foundDifficulties.push(file.name);
                         }
+                    } else {
+                        throw new Error("Unknown file format!");
                     }
-                    return validGameChart(data.game, data.file, data.file.name, {difficulties: foundDifficulties});
-                }
-                catch (e) {
+
+                    return validGameChart(data.game, data.file, data.file.name, { difficulties: foundDifficulties });
+                } catch (e) {
                     console.error(e);
-                    return invalidGameChart("Error reading zip file");
+                    return invalidGameChart("Error reading osu file");
                 }
 
             case "adofai": {
@@ -599,13 +608,26 @@ async function importGameChart(providedSong={}) {
             // bpm changes
             // audio import fix (currently can't export audio in urlzip files)
 
-            let jsZip = new JSZip();
-            let zip = await jsZip.loadAsync(gameChart.chart);
+            let osuString = "";
+            console.log(gameChart);
 
-            let data = OsuParser.Parse(await zip.file(chartSettings.difficulty).async("string"));
+            if (getExtension(gameChart.filename) === "osu") {
+                osuString = await new Promise((resolve, reject) => {
+                    let reader = new FileReader();
+                    reader.onload = () => {
+                        resolve(reader.result);
+                    }
+                    reader.readAsText(gameChart.chart);
+                });
+            }
+            else if (getExtension(gameChart.filename) === "osz") {
+                let jsZip = new JSZip();
+                let zip = await jsZip.loadAsync(gameChart.chart);
+                osuString = await zip.file(chartSettings.difficulty).async("string");
+            }
 
-            providedSong.data = `data:audio/mpeg;base64,${await zip.file(data.audioFilename).async("base64")}`;
-            
+            let data = OsuParser.Parse(osuString);
+
             const bpm = data.timingPoints[0].bpm;
 
             chart.metadata = {

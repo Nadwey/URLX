@@ -75,3 +75,13 @@ function twemojiParse(str) {
 function hitWindow() {
     return WINDOWS.hit * PLAYERSETTINGS.hitWindowMultiplier
 }
+
+/**
+ * Returns file extension
+ * 
+ * @param {String} filename input file name
+ * @returns {String} file extension without dot at the beginning  (e.g. "index.html" -> "html") 
+ */
+const getExtension = (filename) => {
+    return filename.split(".").pop();
+}
