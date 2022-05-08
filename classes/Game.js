@@ -35,7 +35,7 @@ class Game {
         this.resetNotes()
         this.notes.filter(x => x.beat <= startingBeat).forEach(x => x.skipped = true)
         this.conductor.play()
-        this.startTime = Date.now() - this.conductor.getSecsFromBeat(startingBeat) * 1000;
+        this.startTime = Date.now() - this.conductor.getSecsFromBeat(startingBeat) / this.conductor.speed * 1000;
 
         $('#startBtn').hide()
         $('#stopBtn').show()
@@ -88,13 +88,14 @@ class Game {
 
         this.prepareUpcomingBeats();
 
+        const timeDiff = (Date.now() - this.startTime) * conductor.speed;
         let hitTime = conductor.getSecsFromBeat(conductor.beat) * 1000
         const prevBeat = conductor.beat;
 
-        if (hitTime - 50 < Date.now() - this.startTime) {
+        if (hitTime - 50 < timeDiff) {
             while(true) {
                 conductor.increment();
-                if (conductor.getSecsFromBeat(conductor.beat) * 1000 - 50 > Date.now() - this.startTime) break;
+                if (conductor.getSecsFromBeat(conductor.beat) * 1000 - 50 > timeDiff) break;
             }
 
             // some stats
