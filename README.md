@@ -32,7 +32,7 @@ Maybe in the future these features will be in offical version, but first I need 
 
 Sounds are broken.
 
-[truth](./suntzu.jpg)
+![truth](./suntzu.jpg)
 
 ### Osu importing (kinda done, except for speed changing)
 
