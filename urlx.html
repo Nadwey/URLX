@@ -284,6 +284,17 @@
                 <p class="settingInfo">Reduces the number of buttons required to play the game.<br>Enable the checkbox to visually change notes to match the control scheme.<br><span style="color: #dddddd" id="currentControlScheme"></span></p>
             </div>
 
+            <div class="playerSetting">
+                <p>Disable frame validating</p>
+                <label>
+                    <input type="checkbox" id="disableFrameValidating"
+                        onclick="PLAYERSETTINGS.disableFrameValidating = $(this).prop('checked'); saveSettings()">
+                    <span></span>
+                </label>
+                <p class="settingInfo">Causes url bar to be refreshed faster,<br />
+                    YOU MUST RUN CHROME WITH <code>--disable-ipc-flooding-protection</code>  FLAG.</p>
+            </div>
+
             <button style="margin: 0px 0px 10px 0" class="textButton" onclick="$('.popup').hide()">Done</button>
 
         </div>

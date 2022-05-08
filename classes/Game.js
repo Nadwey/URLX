@@ -101,7 +101,7 @@ class Game {
             // some stats
             if (!chartVisible) this.updateStats();
         }
-        if (conductor.isValidFrame() && prevBeat != conductor.beat) this.updatePath();
+        if ((!PLAYERSETTINGS.disableFrameValidating ? conductor.isValidFrame() : true) && prevBeat != conductor.beat) this.updatePath();
 
         // cpu hits
         let cpuNotes = this.notes.filter(x => x.auto && x.beat == conductor.beat)

@@ -101,7 +101,8 @@ const PLAYERSETTINGS = {
     inputOffset: Number(currentSettings.inputOffset) || 0, // input offset, lower if hitting too early and raise if hitting too late
     hitWindowMultiplier: Number(currentSettings.hitWindowMultiplier) || 1, // hit window multiplier, higher = more lenient
     controlScheme: currentSettings.controlScheme || "normal", // control scheme, determines how many buttons are required to play
-    changeArrowsToControls: currentSettings.changeArrowsToControls !== false // visually change notes to match the control scheme (default true) 
+    changeArrowsToControls: currentSettings.changeArrowsToControls !== false, // visually change notes to match the control scheme (default true) 
+    disableFrameValidating: false, // causes url bar to be refreshed faster, YOU MUST RUN CHROME WITH --disable-ipc-flooding-protection FLAG
 }
 
 // save settings to localstorage
@@ -125,6 +126,7 @@ $('#skipWelcome').prop('checked', PLAYERSETTINGS.skipWelcome)
 $('#changeArrowsToControls').prop('checked', PLAYERSETTINGS.changeArrowsToControls)
 $('#inputOffset').val(PLAYERSETTINGS.inputOffset)
 $('#hitWindowMultiplier').val(PLAYERSETTINGS.hitWindowMultiplier)
+$("#disableFrameValidating").val(PLAYERSETTINGS.disableFrameValidating)
 
 // control scheme changing
 function changeControlScheme(val, first) {
@@ -178,7 +180,7 @@ const CONFIG = {
     maxSpeed: 60, // max speed for the address bar to update, setting this too low will cause the bar to freeze (throttle) occasionally
     emojiLength: 150, // number of emojis to display in the address bar
     upcomingBeatLookahead: 4, // how many beats forward to check when queuing notes in advance
-    bpmLimit: 1000, // max bpm
+    bpmLimit: Infinity, // max bpm
     subdivLimit: 32, // max subdiv size
     maxScrollMultiplier: 8, // max scroll speed multiplier
     defaultSongVolume: 75, // default volume for song

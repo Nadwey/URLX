@@ -423,7 +423,7 @@ label input[type=checkbox]:checked + span {
 .playerSetting p {
     margin-top: 0px;
     margin-bottom: 0px;
-    width: 150px;
+    width: 210px;
 }
 
 .playerSetting select {
