@@ -35,7 +35,7 @@ class Game {
         this.resetNotes()
         this.notes.filter(x => x.beat <= startingBeat).forEach(x => x.skipped = true)
         this.conductor.play()
-        this.startTime = Date.now()
+        this.startTime = Date.now() - this.conductor.getSecsFromBeat(startingBeat) * 1000;
 
         $('#startBtn').hide()
         $('#stopBtn').show()
