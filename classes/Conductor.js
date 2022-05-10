@@ -208,7 +208,7 @@ class Conductor {
 
     // get the amount of secs until the next beat, essentially compares the beat number and the song position
     timeToNextBeat(targetBeat) { 
-        return (this.getSecsFromBeat(targetBeat) - this.songPos())
+        return (this.getSecsFromBeat(targetBeat) - this.songPos()) / this.speed;
     }
 
     isAhead(beat) {
