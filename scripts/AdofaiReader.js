@@ -4,7 +4,7 @@
  * @typedef {Object} Action
  * @property {"SetSpeed"|"Twirl"} eventType
  * @property {Number} floor
- * 
+ *
  * SPEED
  * @property {"Multiplier"|"Bpm"} speedType
  * @property {Number} beatsPerMinute
@@ -45,7 +45,7 @@
  * @param {String} adofaiString adofai string
  * @returns {AdofaiData}
  */
-const ReadAfodaiString = (adofaiString) => {
+ const ReadAfodaiString = (adofaiString) => {
     const angles = {
         U: 90,
         R: 180,
@@ -63,7 +63,8 @@ const ReadAfodaiString = (adofaiString) => {
         B: 240,
         F: 300,
         N: 330,
-        "!": 90 // unsupported
+        "!": 90, // unsupported
+        "X": null // spawnpoint
     };
 
     /**
@@ -76,33 +77,39 @@ const ReadAfodaiString = (adofaiString) => {
 
     if (!data.angleData) {
         const pathData = data.pathData.split("");
-        data.angleData = pathData.map(val => angles[val]);
+        let angleData = [];
+        pathData.forEach((val) => {
+            if (angles[val.toUpperCase()]) angleData.push(angles[val.toUpperCase()]);
+        });
+        data.angleData = angleData;
     }
 
-    data.angleData.unshift(0); // lol
+    // data.angleData.unshift(0); // no lol
 
     const events = data.angleData.map((angle, index) => {
         let wasBpmChanged = false;
         let angleChange = Math.abs((data.angleData[index + 1] || 360) - angle + 540) % 360;
 
         const supportedActions = ["SetSpeed", "Twirl"];
-        data.actions.filter(action => action.floor === index && supportedActions.includes(action.eventType)).forEach(action => {
-            switch(action.eventType) {
-                case "SetSpeed": {
-                    wasBpmChanged = true;
-                    if (!action.speedType || action.speedType === "Bpm") {
-                        bpm = action.beatsPerMinute;
+        data.actions
+            .filter((action) => action.floor === index && supportedActions.includes(action.eventType))
+            .forEach((action) => {
+                switch (action.eventType) {
+                    case "SetSpeed": {
+                        wasBpmChanged = true;
+                        if (!action.speedType || action.speedType === "Bpm") {
+                            bpm = action.beatsPerMinute;
+                            break;
+                        }
+                        bpm *= action.bpmMultiplier;
                         break;
                     }
-                    bpm *= action.bpmMultiplier;
-                    break;
+                    case "Twirl": {
+                        angleChange = 360 - angleChange;
+                        break;
+                    }
                 }
-                case "Twirl": {
-                    angleChange = 360 - angleChange;
-                    break;
-                }
-            }
-        });
+            });
         if (angleChange == 0) angleChange = 360;
 
         const milis = (1000 * angleChange) / (3 * bpm);
@@ -110,12 +117,12 @@ const ReadAfodaiString = (adofaiString) => {
         return {
             time: milis,
             angleChange,
-            bpm: wasBpmChanged ? bpm : null
+            bpm: wasBpmChanged ? bpm : null,
         };
     });
 
     return {
         events,
-        settings: data.settings
-    }
+        settings: data.settings,
+    };
 };
