@@ -63,7 +63,7 @@
         B: 240,
         F: 300,
         N: 330,
-        "!": 90, // unsupported
+        "!": null, // unsupported (for now)
         "X": null // spawnpoint
     };
 

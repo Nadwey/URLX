@@ -102,7 +102,7 @@ const PLAYERSETTINGS = {
     hitWindowMultiplier: Number(currentSettings.hitWindowMultiplier) || 1, // hit window multiplier, higher = more lenient
     controlScheme: currentSettings.controlScheme || "normal", // control scheme, determines how many buttons are required to play
     changeArrowsToControls: currentSettings.changeArrowsToControls !== false, // visually change notes to match the control scheme (default true) 
-    disableFrameValidating: false, // causes url bar to be refreshed faster, YOU MUST RUN CHROME WITH --disable-ipc-flooding-protection FLAG
+    disableFrameValidating: currentSettings.disableFrameValidating || false, // causes url bar to be refreshed faster, YOU MUST RUN CHROME WITH --disable-ipc-flooding-protection FLAG
 }
 
 // save settings to localstorage
@@ -126,7 +126,7 @@ $('#skipWelcome').prop('checked', PLAYERSETTINGS.skipWelcome)
 $('#changeArrowsToControls').prop('checked', PLAYERSETTINGS.changeArrowsToControls)
 $('#inputOffset').val(PLAYERSETTINGS.inputOffset)
 $('#hitWindowMultiplier').val(PLAYERSETTINGS.hitWindowMultiplier)
-$("#disableFrameValidating").val(PLAYERSETTINGS.disableFrameValidating)
+$("#disableFrameValidating").prop("checked", PLAYERSETTINGS.disableFrameValidating)
 
 // control scheme changing
 function changeControlScheme(val, first) {
