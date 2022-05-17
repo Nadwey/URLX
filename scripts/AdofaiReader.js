@@ -88,7 +88,7 @@
 
     const events = data.angleData.map((angle, index) => {
         let wasBpmChanged = false;
-        let angleChange = Math.abs((data.angleData[index + 1] || 360) - angle + 540) % 360;
+        let angleChange = Math.abs((data.angleData[index + 1]) - angle + 540) % 360;
 
         const supportedActions = ["SetSpeed", "Twirl"];
         data.actions
