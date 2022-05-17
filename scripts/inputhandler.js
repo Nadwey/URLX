@@ -40,7 +40,7 @@ function presskey(e, key, editorOnly) {
 
     if (e.ctrlKey && gameRunning) {
         // live charting
-        let currentSecs = game.conductor.getBeatFromSecs(game.conductor.songPos() - 0.1)
+        let currentSecs = game.conductor.getBeatFromSecs(game.conductor.songPos());
         game.editor.setNote(key, currentSecs, true)
     }
 }

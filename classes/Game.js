@@ -35,6 +35,7 @@ class Game {
         this.resetNotes()
         this.notes.filter(x => x.beat <= startingBeat).forEach(x => x.skipped = true)
         this.conductor.play()
+        this.startTime = Date.now() - this.conductor.getSecsFromBeat(startingBeat) / this.conductor.speed * 1000;
 
         $('#startBtn').hide()
         $('#stopBtn').show()
@@ -85,21 +86,22 @@ class Game {
         // metronome (broken?)
         if (CONFIG.metronome && Math.floor(conductor.beat) == conductor.beat) SFX.metronome.play()
 
-        // increment beat
-        conductor.increment()
+        this.prepareUpcomingBeats();
 
-        // shift path
-        if (conductor.isValidFrame()) this.updatePath()
+        const timeDiff = (Date.now() - this.startTime) * conductor.speed;
+        let hitTime = conductor.getSecsFromBeat(conductor.beat) * 1000
+        const prevBeat = conductor.beat;
 
-        // some stats
-        if (!chartVisible) this.updateStats()
+        if (hitTime < timeDiff) {
+            while(true) {
+                conductor.increment();
+                if (conductor.getSecsFromBeat(conductor.beat) * 1000 > timeDiff) break;
+            }
 
-        // upcoming hits
-        this.prepareUpcomingBeats()
-
-        // figure out when the next beat is using the song position
-        let timeToNext = conductor.timeToNextBeat(conductor.beat) * 1000
-        setTimeout(() => this.gameLoop(), timeToNext);
+            // some stats
+            if (!chartVisible) this.updateStats();
+        }
+        if ((!PLAYERSETTINGS.disableFrameValidating ? conductor.isValidFrame() : true) && prevBeat != conductor.beat) this.updatePath();
 
         // cpu hits
         let cpuNotes = this.notes.filter(x => x.auto && x.beat == conductor.beat)
@@ -110,7 +112,10 @@ class Game {
 
         // reset feedback icon
         if (this.feedback.emoji != EMOJIS.feedback.none.icon && conductor.songPos() >= this.feedback.timestamp + CONFIG.feedbackLength) this.setFeedback("none")
-
+        
+        window.requestAnimationFrame(() => {
+            this.gameLoop();
+        });
     }
 
     prepareUpcomingBeats() {
