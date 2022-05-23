@@ -120,7 +120,7 @@ const ReadAfodaiString = (adofaiString) => {
 
         const supportedActions = ["SetSpeed", "Twirl"];
         data.actions
-            .filter((action) => action.floor === index + 1 && supportedActions.includes(action.eventType))
+            .filter((action) => action.floor === index && supportedActions.includes(action.eventType))
             .forEach((action) => {
                 switch (action.eventType) {
                     case "SetSpeed": {

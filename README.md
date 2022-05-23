@@ -38,9 +38,9 @@ Sounds are broken.
 
 Song importing doesn't work btw.
 
-### Adofai importing (25% done)
+### Adofai importing (75% done)
 
-I need to implement fixing adofai's json
+It desyncs
 
 ### High rate refreshing 
 

@@ -668,7 +668,7 @@ async function importGameChart(providedSong={}) {
                 "filename": "",
                 "bpm": data.settings.bpm,
                 "subdivision": 8,
-                "offset": -data.settings.offset
+                "offset": data.settings.offset // I don't even know anymore
             }
 
             let bpm = data.settings.bpm;
