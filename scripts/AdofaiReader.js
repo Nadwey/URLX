@@ -1,5 +1,3 @@
-// TODO adofai json fixer
-
 /**
  * @typedef {Object} Action
  * @property {"SetSpeed"|"Twirl"} eventType
@@ -28,7 +26,6 @@
 
 /**
  * @typedef {Object} AdofaiEvent
- * @property {Number} time time in miliseconds
  * @property {Number} angleChange angle difference to previous beat
  * @property {?Number} bpm If it's not null, then it's bpm change
  */
@@ -40,12 +37,33 @@
  */
 
 /**
+ * Tries to fix adofai's json
+ * Apparently it serializes using just strings, and uses shitty parser that accepts that
+ *
+ * @param {String} input broken string
+ * @returns {String} hopefully fixed json
+ */
+const FixAdofaiString = (input) => {
+    const fixed = input
+        .trim()
+        .replaceAll(", ,", ",")
+        .replaceAll(",,", ",")
+        .replaceAll("}\n", "},\n")
+        .replaceAll("},\n\t]", "}\n\t]")
+        .replaceAll(", },", " },")
+        .replaceAll(", }", " }")
+        .replace(/,[\t]+\}/, "}");
+    console.log('"Fixed",\n', fixed);
+    return fixed;
+};
+
+/**
  * Reads adofai string
  *
  * @param {String} adofaiString adofai string
  * @returns {AdofaiData}
  */
- const ReadAfodaiString = (adofaiString) => {
+const ReadAfodaiString = (adofaiString) => {
     const angles = {
         U: 90,
         R: 180,
@@ -64,14 +82,24 @@
         F: 300,
         N: 330,
         "!": null, // unsupported (for now)
-        "X": null // spawnpoint
+        X: null, // spawnpoint
     };
 
     /**
      * @type {AdofaiLevel}
      * @returns {Number} times in miliseconds
      */
-    const data = JSON.parse(adofaiString);
+    let data;
+
+    try {
+        data = JSON.parse(adofaiString);
+    } catch {
+        try {
+            data = JSON.parse(FixAdofaiString(adofaiString));
+        } catch (ex) {
+            throw new Error("Ur json it to broken, rip\n" + ex);
+        }
+    }
 
     let bpm = data.settings.bpm;
 
@@ -84,15 +112,15 @@
         data.angleData = angleData;
     }
 
-    // data.angleData.unshift(0); // no lol
+    data.angleData.unshift(0); // maybe???
 
     const events = data.angleData.map((angle, index) => {
         let wasBpmChanged = false;
-        let angleChange = Math.abs((data.angleData[index + 1]) - angle + 540) % 360;
+        let angleChange = Math.abs(data.angleData[index + 1] - angle + 540) % 360;
 
         const supportedActions = ["SetSpeed", "Twirl"];
         data.actions
-            .filter((action) => action.floor === index && supportedActions.includes(action.eventType))
+            .filter((action) => action.floor === index + 1 && supportedActions.includes(action.eventType))
             .forEach((action) => {
                 switch (action.eventType) {
                     case "SetSpeed": {
@@ -112,10 +140,9 @@
             });
         if (angleChange == 0) angleChange = 360;
 
-        const milis = (1000 * angleChange) / (3 * bpm);
+        // const milis = (1000 * angleChange) / (3 * bpm);
 
         return {
-            time: milis,
             angleChange,
             bpm: wasBpmChanged ? bpm : null,
         };
