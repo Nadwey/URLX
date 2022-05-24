@@ -678,13 +678,14 @@ async function importGameChart(providedSong={}) {
             }
 
             let bpm = data.settings.bpm;
-            let beat = 0;
+            let beat = data.events[0].angleChange / 180;
+
             data.events.forEach((event) => {
                 addNote(beat, "o", false);
 
                 if (event.bpm !== null) {
                     bpm = event.bpm;
-                    chart.actions.push({ beat: beat, type: "bpm", val: bpm });
+                    chart.actions.push({ beat: beat - data.events[0].angleChange / 180, type: "bpm", val: bpm });
                 }
 
                 beat += event.angleChange / 180;
