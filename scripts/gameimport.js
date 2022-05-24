@@ -126,7 +126,7 @@ let gameImportData = [
         hover: "Implementing this was hell",
         filestring: ".adofai file",
         filetypes: [".adofai"],
-        details: "idk what to put here",
+        details: "Everything will be converted into 👏",
         settings: [
 
         ]
@@ -279,6 +279,12 @@ function validateGameChart(data) {
                 }
 
             case "adofai": {
+                try {
+                    ReadAfodaiString(reader.result);
+                }
+                catch (ex) {
+                    return invalidGameChart("Error reading .adofai file\n" + ex);
+                }
                 return validGameChart(data.game, chartData, data.file.name, {});
             }
         }

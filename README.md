@@ -34,13 +34,13 @@ Sounds are broken.
 
 ![truth](./suntzu.jpg)
 
-### Osu importing (kinda done, except for speed changing)
+### Osu importing (kinda done, except for speed changing) (PR made)
 
 Song importing doesn't work btw.
 
 ### Adofai importing (75% done)
 
-It desyncs
+It works, but music is desynced
 
 ### High rate refreshing 
 

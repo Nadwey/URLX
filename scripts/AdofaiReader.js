@@ -14,6 +14,7 @@
  * @property {String} song
  * @property {Number} bpm
  * @property {Number} offset
+ * @property {Number} beatsBehind
  */
 
 /**
@@ -53,7 +54,6 @@ const FixAdofaiString = (input) => {
         .replaceAll(", },", " },")
         .replaceAll(", }", " }")
         .replace(/,[\t]+\}/, "}");
-    console.log('"Fixed",\n', fixed);
     return fixed;
 };
 
@@ -112,7 +112,7 @@ const ReadAfodaiString = (adofaiString) => {
         data.angleData = angleData;
     }
 
-    data.angleData.unshift(0); // maybe???
+    // data.angleData.unshift(0); // maybe not???
 
     const events = data.angleData.map((angle, index) => {
         let wasBpmChanged = false;
