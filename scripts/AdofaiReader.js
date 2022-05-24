@@ -111,8 +111,8 @@ const ReadAfodaiString = (adofaiString) => {
         });
         data.angleData = angleData;
     }
-
-    // data.angleData.unshift(0); // maybe not???
+    
+    data.angleData.unshift(0); // yes
 
     const events = data.angleData.map((angle, index) => {
         let wasBpmChanged = false;
