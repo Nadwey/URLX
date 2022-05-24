@@ -682,7 +682,7 @@ async function importGameChart(providedSong={}) {
             };
 
             if (chartSettings.usetimeimporting) {
-                let beat = 0;
+                let beat = 1;
                 let bpm = data.settings.bpm;
 
                 data.events.forEach((event) => {
