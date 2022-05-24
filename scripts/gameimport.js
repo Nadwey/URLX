@@ -688,7 +688,7 @@ async function importGameChart(providedSong={}) {
                 data.events.forEach((event) => {
                     if (event.bpm !== null) {
                         bpm = event.bpm;
-                        chart.actions.push({ beat: beat, type: "bpm", val: bpm });
+                        chart.actions.push({ beat: beat - 1, type: "bpm", val: bpm });
                     }
 
                     let barLength = 60 / bpm;
