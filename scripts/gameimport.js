@@ -129,7 +129,7 @@ let gameImportData = [
         details: "Everything will be converted into 👏",
         settings: [
             {
-                name: "Use time based importing.",
+                name: "Use time based importing. (doesn't work for now)",
                 id: "usetimeimporting",
                 type: "bool"
             }
