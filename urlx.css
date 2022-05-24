@@ -196,7 +196,7 @@ hr {
     overflow-x: hidden;
     overflow-y: auto;
     margin: 0px 25px 25px 0px;
-    scroll-behavior: smooth;
+    /* scroll-behavior: smooth; broken */
 }
 
 ::-webkit-scrollbar {
