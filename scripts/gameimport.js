@@ -678,18 +678,18 @@ async function importGameChart(providedSong={}) {
             }
 
             let bpm = data.settings.bpm;
-            let beat = data.events[0].angleChange / 180;
+            let beat = 1;
 
             data.events.forEach((event) => {
                 addNote(beat, "o", false);
 
                 if (event.bpm !== null) {
                     bpm = event.bpm;
-                    chart.actions.push({ beat: beat - data.events[0].angleChange / 180, type: "bpm", val: bpm });
+                    chart.actions.push({ beat: beat - 1, type: "bpm", val: bpm });
                 }
 
                 beat += event.angleChange / 180;
-            });
+            });            
 
             break;
         }
