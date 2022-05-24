@@ -27,6 +27,7 @@
 
 /**
  * @typedef {Object} AdofaiEvent
+ * @property {Number} time
  * @property {Number} angleChange angle difference to previous beat
  * @property {?Number} bpm If it's not null, then it's bpm change
  */
@@ -140,9 +141,10 @@ const ReadAfodaiString = (adofaiString) => {
             });
         if (angleChange == 0) angleChange = 360;
 
-        // const milis = (1000 * angleChange) / (3 * bpm);
+        const milis = (1000 * angleChange) / (3 * bpm);
 
         return {
+            time: milis,
             angleChange,
             bpm: wasBpmChanged ? bpm : null,
         };

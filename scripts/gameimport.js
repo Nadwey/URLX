@@ -128,7 +128,11 @@ let gameImportData = [
         filetypes: [".adofai"],
         details: "Everything will be converted into 👏",
         settings: [
-
+            {
+                name: "Use time based importing.",
+                id: "usetimeimporting",
+                type: "bool"
+            }
         ]
     }
 ]
@@ -670,26 +674,44 @@ async function importGameChart(providedSong={}) {
             const data = ReadAfodaiString(gameChart.chart);
 
             chart.metadata = {
-                "name": data.settings.song,
-                "filename": "",
-                "bpm": data.settings.bpm,
-                "subdivision": 8,
-                "offset": data.settings.offset // I don't even know anymore
-            }
+                name: data.settings.song,
+                filename: "",
+                bpm: data.settings.bpm,
+                subdivision: 8,
+                offset: data.settings.offset, // I don't even know anymore
+            };
 
-            let bpm = data.settings.bpm;
-            let beat = 1;
+            if (chartSettings.usetimeimporting) {
+                let beat = 0;
+                let bpm = data.settings.bpm;
 
-            data.events.forEach((event) => {
-                addNote(beat, "o", false);
+                data.events.forEach((event) => {
+                    if (event.bpm !== null) {
+                        bpm = event.bpm;
+                        chart.actions.push({ beat: beat, type: "bpm", val: bpm });
+                    }
 
-                if (event.bpm !== null) {
-                    bpm = event.bpm;
-                    chart.actions.push({ beat: beat - 1, type: "bpm", val: bpm });
-                }
+                    let barLength = 60 / bpm;
+                    let noteSecs = event.time / 1000;
+                    beat += noteSecs / barLength;
 
-                beat += event.angleChange / 180;
-            });            
+                    addNote(toSafe(beat), "o", false);
+                });
+            } else {
+                let bpm = data.settings.bpm;
+                let beat = 1;
+
+                data.events.forEach((event) => {
+                    addNote(beat, "o", false);
+
+                    if (event.bpm !== null) {
+                        bpm = event.bpm;
+                        chart.actions.push({ beat: beat - 1, type: "bpm", val: bpm });
+                    }
+
+                    beat += event.angleChange / 180;
+                });
+            }   
 
             break;
         }
