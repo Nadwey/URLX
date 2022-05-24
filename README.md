@@ -38,9 +38,9 @@ Sounds are broken.
 
 Song importing doesn't work btw.
 
-### Adofai importing (75% done)
+### Adofai importing (85% done)
 
-It works, but music is desynced
+The tap thingys don't work
 
 ### High rate refreshing 
 
