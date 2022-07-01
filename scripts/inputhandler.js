@@ -10,6 +10,8 @@ function keyDown(e) {
     else if (key == "escape") return activePopup ? $('.popup:not(.importantPopup)').hide() : game.editor.deselectAll()
     else if (e.ctrlKey && key == "s") { e.preventDefault(); $(e.shiftKey ? '#exportBtn' : '#saveBtn').trigger('click'); return false }
     else if (e.ctrlKey && key == "o") { e.preventDefault(); $('#uploadButton').trigger('click'); return false }
+    else if (e.ctrlKey && key == "c") { e.preventDefault(); game.editor.copy(); return false }
+    else if (e.ctrlKey && key == "v") { e.preventDefault(); game.editor.paste(); return false }
 
     // trigger notes and other stuff
     switch (key.toLowerCase()) {
