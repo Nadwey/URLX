@@ -3,6 +3,7 @@ class Editor {
         this.game = game
         this.selectedBeats = []
         this.saveLocation = saveLocation || null
+        this.copiedBuffer = []
     }
 
     drawChart(select) {
@@ -378,6 +379,30 @@ class Editor {
                 downloader.click();
                 document.body.removeChild(downloader);
             }
+    }
+
+    copy() {
+        /**
+         * @type {Array}
+         */
+        let notes = game.getAllNotes();
+        const firstBeat = this.selectedBeats[0];
+        notes = notes.filter((e) => this.selectedBeats.includes(e.beat));
+        notes = notes.sort((a, b) => a.beat - b.beat);
+        notes = notes.map(e => {
+            let note = e;
+            e.beat = e.beat - firstBeat;
+            return note;
+        });
+
+        this.copiedBuffer = notes;
+    }
+
+    paste() {
+        const firstBeat = this.selectedBeats[0];
+        this.copiedBuffer.forEach(note => {
+            this.setNote(note.note, note.beat + firstBeat);
+        });
     }
 
 }
