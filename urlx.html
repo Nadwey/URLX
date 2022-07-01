@@ -388,20 +388,7 @@
     <div id="welcome" class="popup" style="display: none;">
         <div class="popupBox" style="width: 640px;">
             <h1>Welcome to URLX!</h1>
-            <p style="margin-top: 0px;">URLX is a rhythm game playable in your browser's address bar! (look up)</p>
-            <p>It works similarly to most rhythm games, where arrows scroll by on the address bar and you have to press their respective key. Some notes may require you to press the spacebar, or multiple buttons at once.</p>
-
-            <p><b>Please note that this game is still in early alpha!</b> Only the editor is released as of right now, proper menus and gameplay modes will come later.</p>
-            <p>To make a chart, click on a square in the editor and then press an arrow key (or space) to place a note. Each rectangle represents one beat, and you can adjust the amount of squares they are subdivided into. You can also place notes in real time while playing the chart, by pressing arrows while holding CTRL.</p>
-            <p>If you have any feedback, suggestions, bug reports, or even charts, I encourage you to share them with me on <a target="_blank" href="https://twitter.com/TheRealGDColon">Twitter</a>.</p>
-            
-            <div class="simpleFlex">
-                <label>
-                    <input type="checkbox" id="skipWelcome" onclick="PLAYERSETTINGS.skipWelcome = $(this).prop('checked'); saveSettings()">">
-                    <span class="noX"></span>
-                </label>
-                <p>Don't show this again (viewable in the help menu)</p>
-            </div>
+            My fork of URLX. Has some cool features.
 
             <div style="margin-top: 10px; margin-bottom: 20px">
                 <button class="textButton" onclick="$('.popup').hide(); $('#uploadPopup').show()">Load Chart</button>
