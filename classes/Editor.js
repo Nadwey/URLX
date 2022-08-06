@@ -405,6 +405,13 @@ class Editor {
         });
     }
 
+    cut() {
+        this.copy();
+        const firstBeat = this.selectedBeats[0];
+        this.copiedBuffer.forEach(note => {
+            this.setNote(null, note.beat + firstBeat);
+        });
+    }
 }
 
 //=============================//

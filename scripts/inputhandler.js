@@ -12,6 +12,7 @@ function keyDown(e) {
     else if (e.ctrlKey && key == "o") { e.preventDefault(); $('#uploadButton').trigger('click'); return false }
     else if (e.ctrlKey && key == "c") { e.preventDefault(); game.editor.copy(); return false }
     else if (e.ctrlKey && key == "v") { e.preventDefault(); game.editor.paste(); return false }
+    else if (e.ctrlKey && key == "x") { e.preventDefault(); game.editor.cut(); return false }
 
     // trigger notes and other stuff
     switch (key.toLowerCase()) {

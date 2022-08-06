@@ -49,6 +49,6 @@ and It doesn't work with faster songs
 
 YOU MUST RUN CHROME WITH `--disable-ipc-flooding-protection` FLAG, you can do this by running `RunChromeFastRefresh.bat` file on Windows.
 
-### Copy + Paste (Viprin mode)
+### Copy + Paste + Cut (Viprin mode)
 
 Useful.
