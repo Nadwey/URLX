@@ -13,7 +13,7 @@ jobs:
             - name: Clone
               run: |
                   git clone https://github.com/Nadwey/URLX.git
-                  git checkout ${GITHUB_REF##*/}
+                  git checkout mainer-main
 
             - name: Download libraries
               run: |
