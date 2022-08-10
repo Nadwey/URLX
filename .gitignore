@@ -1,2 +1,5 @@
 Extra
 *.urlx
+
+libraries/
+.vscode/
