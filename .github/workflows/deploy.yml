@@ -7,11 +7,14 @@ jobs:
         concurrency: ci-${{ github.ref }}
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout
-              uses: actions/checkout@v3
+            - name: Clone
+              run: |
+                  git clone https://github.com/Nadwey/URLX.git
+                  git checkout ${GITHUB_REF##*/}
 
             - name: Download libraries
               run: |
+                  cd URLX
                   mkdir libraries
                   cd libraries
                   curl https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js -o jquery.js
@@ -21,4 +24,4 @@ jobs:
             - name: Deploy
               uses: JamesIves/github-pages-deploy-action@v4
               with:
-                  folder: .
+                  folder: URLX
