@@ -13,9 +13,10 @@ jobs:
             - name: Download libraries
               run: |
                   mkdir libraries
-                  curl https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js -o libraries/jquery.js
-                  curl https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js -o libraries/howler.js
-                  curl https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js -o libraries/jszip.js
+                  cd libraries
+                  curl https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js -o jquery.js
+                  curl https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js -o howler.js
+                  curl https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js -o jszip.js
 
             - name: Deploy
               uses: JamesIves/github-pages-deploy-action@v4
