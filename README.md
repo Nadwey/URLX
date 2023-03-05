@@ -16,9 +16,9 @@ I'm happy to accept any pull requests and contributions, but only if it's not to
 
 ---
 
-**Required libraries** - Create a folder called "libraries" and add these
+**Required libraries** - Create a folder called "libraries" and add these **ARLEADY INCLUDED IN `mainer-main` branch!**
 
-[jquery 3.6.0](https://cdnjs.com/libraries/jquery) (go fuck yourself, it makes js syntax shorter and a lot more convenient)
+[jquery 3.6.3](https://cdnjs.com/libraries/jquery) (go fuck yourself, it makes js syntax shorter and a lot more convenient)
 
 [howler 2.2.3](https://cdnjs.com/libraries/howler) (handles audio stuff)
 
