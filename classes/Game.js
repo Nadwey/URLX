@@ -88,9 +88,6 @@ class Game {
         if (CONFIG.autoscroll) this.editor.scrollToBeat(conductor.beat)
         this.editor.highlightBeat(conductor.beat)
 
-        // metronome (broken?)
-        if (CONFIG.metronome && Math.floor(conductor.beat) == conductor.beat) SFX.metronome.play()
-
         this.prepareUpcomingBeats();
 
         const timeDiff = (Date.now() - this.startTime) * conductor.speed;
@@ -100,6 +97,10 @@ class Game {
         if (hitTime < timeDiff) {
             while(true) {
                 conductor.increment();
+
+                // metronome (broken?)
+                if (CONFIG.metronome && Math.floor(conductor.beat) == conductor.beat) SFX.metronome.play()
+
                 if (conductor.getSecsFromBeat(conductor.beat) * 1000 > timeDiff) break;
             }
 
