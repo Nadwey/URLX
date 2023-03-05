@@ -1,4 +1,7 @@
 # URLX
+
+Open [URLX](./urlx.html)
+
 URLX is a rhythm game played in your browser's address bar. (no it does not stand for anything it's just the best name i could think of)
 - Hit arrows to the beat (or the spacebar, or maybe even both)
 - Create charts directly from the site's editor, or tap one out in real time
