@@ -46,6 +46,11 @@ class Game {
         this.active = false
         this.conductor.reset()
         this.resetNotes()
+
+        if (this.editor.selectedBeats.length === 0) {
+            this.editor.selectBeat(1, false, null);
+        }
+
         if (!force) this.editor.stopPlaytest()
 
         $('#startBtn').show()
