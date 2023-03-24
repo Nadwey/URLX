@@ -7,6 +7,7 @@ class Editor {
     }
 
     drawChart(select) {
+        if (!chartVisible) return;
         $('#chart').empty()
         this.deselectAll()
 
@@ -453,8 +454,11 @@ let chartVisible = true
 function toggleChartVisiblity(visibility) {
     chartVisible = visibility === undefined ? !chartVisible : visibility
     $('.chartVisible').toggle(chartVisible);
-    $('.chartHidden').toggle(!chartVisible)
-    if (!chartVisible) game.updateStats()
+    $('.chartHidden').toggle(!chartVisible);
+    if (!chartVisible) {
+        game.updateStats();
+        $('#chart').empty();
+    } else game.editor.drawChart();
 }
 
 // i'm lazy
