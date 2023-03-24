@@ -675,3 +675,18 @@ input::-webkit-inner-spin-button, input::-webkit-outer-spin-button {
         margin-right: 0px;
     }
 }
+
+#playerSettings > div {
+    max-height: 80vh;
+    overflow-y: scroll;
+}
+
+#playerSettings .textButton {
+    padding: 10px 0;
+    height: auto;
+}
+
+/* hide the scrollbar because it's ugly with border radius (there's probably a better solution but im to stupid) */
+#playerSettings > div::-webkit-scrollbar {
+    width: 0;
+}
