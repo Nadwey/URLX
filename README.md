@@ -55,3 +55,7 @@ YOU MUST RUN CHROME WITH `--disable-ipc-flooding-protection` FLAG, you can do th
 ### Copy + Paste + Cut (Viprin mode)
 
 Useful.
+
+### Many performance boosters
+
+For example: Settings -> Clear editor chart when hidden

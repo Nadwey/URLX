@@ -103,6 +103,7 @@ const PLAYERSETTINGS = {
     controlScheme: currentSettings.controlScheme || "normal", // control scheme, determines how many buttons are required to play
     changeArrowsToControls: currentSettings.changeArrowsToControls !== false, // visually change notes to match the control scheme (default true) 
     disableFrameValidating: currentSettings.disableFrameValidating || false, // causes url bar to be refreshed faster, YOU MUST RUN CHROME WITH --disable-ipc-flooding-protection FLAG
+    clearChartWhenHidden: currentSettings.clearChartWhenHidden || false, // clears editor chart when hidden
 }
 
 // save settings to localstorage
@@ -127,6 +128,7 @@ $('#changeArrowsToControls').prop('checked', PLAYERSETTINGS.changeArrowsToContro
 $('#inputOffset').val(PLAYERSETTINGS.inputOffset)
 $('#hitWindowMultiplier').val(PLAYERSETTINGS.hitWindowMultiplier)
 $("#disableFrameValidating").prop("checked", PLAYERSETTINGS.disableFrameValidating)
+$("#clearChartWhenHidden").prop("checked", PLAYERSETTINGS.clearChartWhenHidden)
 
 // control scheme changing
 function changeControlScheme(val, first) {

@@ -296,6 +296,18 @@
                     In Firefox go to <a target="_blank" href="about:config">about:config</a> and set dom.navigation.locationChangeRateLimit.count to much higher value.</p>
             </div>
 
+            <div class="playerSetting">
+                <p>Clear editor chart when hidden</p>
+                <label>
+                    <input type="checkbox" id="clearChartWhenHidden"
+                        onclick="PLAYERSETTINGS.clearChartWhenHidden = $(this).prop('checked'); saveSettings()">
+                    <span></span>
+                </label>
+                <p class="settingInfo">Clears editor chart when hidden<br />
+                    Massively increases performance on bigger charts, but :), the chart has to be redrawn everytime you show it again.
+                </p>
+            </div>
+
             <button style="margin: 0px 0px 10px 0" class="textButton" onclick="$('.popup').hide()">Done</button>
 
         </div>

@@ -457,8 +457,8 @@ function toggleChartVisiblity(visibility) {
     $('.chartHidden').toggle(!chartVisible);
     if (!chartVisible) {
         game.updateStats();
-        $('#chart').empty();
-    } else game.editor.drawChart();
+        if (PLAYERSETTINGS.clearChartWhenHidden) $('#chart').empty();
+    } else if (PLAYERSETTINGS.clearChartWhenHidden) game.editor.drawChart();
 }
 
 // i'm lazy
